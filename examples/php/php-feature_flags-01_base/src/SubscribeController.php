@@ -11,9 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class SubscribeController
 {
+    public function __construct(private Debug $debug)
+    {
+
+    }
+
     public function __invoke(Request $request)
     {
-        $flags = $this->getFeatures($request);
+        $flags = $this->getFeatures($request, $this->debug);
         $subscribeUseCase = new Subscribe(
             new MySqlConnection($flags),
             $flags,
@@ -26,10 +31,10 @@ final class SubscribeController
         );
     }
 
-    private function getFeatures(Request $request): FeatureFlagsInmutable
+    private function getFeatures(Request $request, Debug $debug): FeatureFlagsInmutable
     {
         $result = new FeatureFlagsInmutable();
-        if (Debug::instance()->isDebugModeEnabled()) {
+        if ($debug->isDebugModeEnabled()) {
             return $result;
         }
 
