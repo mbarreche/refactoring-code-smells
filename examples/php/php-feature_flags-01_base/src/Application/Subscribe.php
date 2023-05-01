@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace CodelyTv\Application;
 
-use CodelyTv\Debug;
 use CodelyTv\Email\EmailNotifier;
-use CodelyTv\FeatureFlags;
+use CodelyTv\FeatureFlagsInmutable;
 use CodelyTv\Flags;
 use CodelyTv\Persistence\MySqlConnection;
 
 final class Subscribe
 {
-    public function __construct(private MySqlConnection $connection, private FeatureFlags $featureFlags, private EmailNotifier $emailNotifier) {
+    public function __construct(private MySqlConnection $connection, private FeatureFlagsInmutable $featureFlags, private EmailNotifier $emailNotifier) {
 
     }
 

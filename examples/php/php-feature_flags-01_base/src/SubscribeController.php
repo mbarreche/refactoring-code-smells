@@ -17,7 +17,7 @@ final class SubscribeController
         $subscribeUseCase = new Subscribe(
             new MySqlConnection($flags),
             $flags,
-            EmailNotifier::instance()
+            new EmailNotifier($flags)
         );
 
         $subscribeUseCase->__invoke(
@@ -26,16 +26,17 @@ final class SubscribeController
         );
     }
 
-    private function getFeatures(Request $request): FeatureFlags
+    private function getFeatures(Request $request): FeatureFlagsInmutable
     {
-        $flagHeader = $request->headers->get('X-FLAG');
-        $features = FeatureFlags::instance();
-        if ($flagHeader === Flags::NEW_SUBSCRIPTION_PAGE_TOKEN) {
-            $features->set('new_subscription_page', true);
-        }
+        $result = new FeatureFlagsInmutable();
         if (Debug::instance()->isDebugModeEnabled()) {
-            $features->deactivateAll();
+            return $result;
         }
-        return $features;
+
+        $flagHeader = $request->headers->get('X-FLAG');
+        if ($flagHeader === Flags::NEW_SUBSCRIPTION_PAGE_TOKEN) {
+            return new FeatureFlagsInmutable(['new_subscription_page' => true]);
+        }
+        return $result;
     }
 }

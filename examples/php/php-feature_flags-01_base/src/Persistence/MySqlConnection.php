@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace CodelyTv\Persistence;
 
-use CodelyTv\FeatureFlags;
+use CodelyTv\FeatureFlagsInmutable;
 use CodelyTv\Flags;
 
 final class MySqlConnection
 {
-    public function __construct(private FeatureFlags $flags)
+    public function __construct(private FeatureFlagsInmutable $flags)
     {
     }
 
