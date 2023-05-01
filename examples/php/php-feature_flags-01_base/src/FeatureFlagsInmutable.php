@@ -4,7 +4,7 @@ namespace CodelyTv;
 
 class FeatureFlagsInmutable
 {
-    public function __construct(private array $flags)
+    public function __construct(private array $flags = [])
     {
     }
 
