@@ -13,9 +13,10 @@ final class SubscribeController
 {
     public function __invoke(Request $request)
     {
+        $flags = $this->getFeatures($request);
         $subscribeUseCase = new Subscribe(
-            MySqlConnection::instance(),
-            $this->getFeatures($request),
+            new MySqlConnection($flags),
+            $flags,
             EmailNotifier::instance()
         );
 
