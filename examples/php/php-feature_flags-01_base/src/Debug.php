@@ -6,29 +6,12 @@ namespace CodelyTv;
 
 final class Debug
 {
-    private static ?Debug $instance = null;
-
-    private bool $debugMode = false;
-
-    private function __construct()
+    public function __construct(private bool $debugMode)
     {
-    }
-
-    public static function instance(): Debug
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    public function enableDebugMode(): void
-    {
-        $this->debugMode = true;
     }
 
     public function isDebugModeEnabled(): bool
     {
-        return  $this->debugMode;
+        return $this->debugMode;
     }
 }
